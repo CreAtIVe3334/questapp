@@ -40,4 +40,13 @@ public class PostService {
         Post post = postDTOMapperInter.dtoTo(postDTO,user);
         return postReposi.save(post);
     }
+
+    public Post updateOnePost(Post post) {
+        return postReposi.save(post);
+    }
+
+    public String deleteOnePost(Long postId) {
+        postReposi.deleteById(postId);
+        return "Succesfully deleted";
+    }
 }

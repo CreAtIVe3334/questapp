@@ -29,4 +29,11 @@ public class UserService {
         userReposi.deleteById(userId);
         return "Succesfully deleted";
     }
+
+    public User updateUser(Long userId, User user) {
+        User user1 = userReposi.findById(userId).orElse(null);
+        user1.setUsername(user.getUsername());
+        user1.setPassword(user.getPassword());
+        return userReposi.save(user1);
+    }
 }

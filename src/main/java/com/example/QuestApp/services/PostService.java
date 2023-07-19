@@ -25,7 +25,7 @@ public class PostService {
 
     public List<Post> getAllPosts(Optional<Long> userId){
         if(userId.isPresent())
-            return postReposi.findByUserId(userId);
+            return postReposi.findByUserId(userId.get());
         return postReposi.findAll();
     }
 
@@ -41,8 +41,12 @@ public class PostService {
         return postReposi.save(post);
     }
 
-    public Post updateOnePost(Post post) {
-        return postReposi.save(post);
+    public Post updateOnePost(Long postId,Post post)
+    {
+        Post post1 = postReposi.findById(postId).get();
+        post1.setText(post.getText());
+        post1.setTitle(post.getTitle());
+        return postReposi.save(post1);
     }
 
     public String deleteOnePost(Long postId) {

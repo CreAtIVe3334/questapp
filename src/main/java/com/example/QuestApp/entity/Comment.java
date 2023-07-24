@@ -14,6 +14,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Builder
 public class Comment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
@@ -29,7 +30,6 @@ public class Comment {
     @JsonIgnore
     private User user;
 
-    @Lob
     @Column(columnDefinition = "text")
     private String text;
 

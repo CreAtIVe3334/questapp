@@ -1,6 +1,7 @@
 package com.example.QuestApp.controller;
 
 import com.example.QuestApp.dto.PostDTO;
+import com.example.QuestApp.dto.PostsDTO;
 import com.example.QuestApp.entity.Post;
 import com.example.QuestApp.services.PostService;
 import jakarta.transaction.Transactional;
@@ -16,11 +17,11 @@ import java.util.Optional;
 public class PostController {
 
     @Autowired
-    PostService postService;
+    PostService  postService;
 
     @GetMapping
     @Transactional
-    public ResponseEntity<List<Post>> getAllPosts(@RequestParam Optional<Long> userId){
+    public ResponseEntity<List<PostsDTO>> getAllPosts(@RequestParam Optional<Long> userId){
         return ResponseEntity.ok().body(postService.getAllPosts(userId));
     }
 

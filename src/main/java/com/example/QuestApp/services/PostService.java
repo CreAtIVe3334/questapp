@@ -1,15 +1,17 @@
 package com.example.QuestApp.services;
 
 import com.example.QuestApp.dto.PostDTO;
+import com.example.QuestApp.dto.PostsDTO;
 import com.example.QuestApp.entity.Post;
 import com.example.QuestApp.entity.User;
-import com.example.QuestApp.mapper.inter.PostDTOMapperInter;
+import com.example.QuestApp.mapper.inter.PostDTOMapper;
 import com.example.QuestApp.repository.PostReposi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -21,12 +23,17 @@ public class PostService {
     UserService userService;
 
     @Autowired
-   PostDTOMapperInter postDTOMapperInter;
+    PostDTOMapper postDTOMapper;
 
-    public List<Post> getAllPosts(Optional<Long> userId){
+
+
+    public List<PostsDTO> getAllPosts(Optional<Long> userId){
+        List<Post> list;
         if(userId.isPresent())
-            return postReposi.findByUserId(userId.get());
-        return postReposi.findAll();
+            list = postReposi.findByUserId(userId.get());
+        list = postReposi.findAll();
+        return  list.stream().map(p->postDTOMapper.entityTo(p)).collect(Collectors.toList());
+        
     }
 
     public Post getPost(Long postId) {
@@ -37,7 +44,7 @@ public class PostService {
         User user = userService.findUser(postDTO.getUserId());
         if(user==null)
             return null;
-        Post post = postDTOMapperInter.dtoTo(postDTO,user);
+        Post post = postDTOMapper.dtoTo(postDTO,user);
         return postReposi.save(post);
     }
 

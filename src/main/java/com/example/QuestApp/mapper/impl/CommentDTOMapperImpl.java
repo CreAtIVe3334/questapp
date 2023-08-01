@@ -17,4 +17,12 @@ public class CommentDTOMapperImpl implements CommentDTOMapper {
 
         return Comment.builder().id(commentDTO.getId()).text(commentDTO.getText()).post(post).user(user).build();
     }
+
+    @Override
+    public CommentDTO entityTo(Comment comment) {
+        return CommentDTO.builder().id(comment.getId())
+                .postId(comment.getPost().getId())
+                .userId(comment.getUser().getId())
+                .text(comment.getText()).build();
+    }
 }

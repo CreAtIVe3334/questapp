@@ -1,5 +1,4 @@
 package com.example.QuestApp.controller;
-
 import com.example.QuestApp.dto.CommentDTO;
 import com.example.QuestApp.dto.CommentUpdateDTO;
 import com.example.QuestApp.entity.Comment;
@@ -21,7 +20,7 @@ public class CommntController {
 
     @GetMapping
     @Transactional
-    public ResponseEntity<List<Comment>> allComments(@RequestParam Optional<Long> userId,@RequestParam Optional<Long> postId){
+    public ResponseEntity<List<CommentDTO>> allComments(@RequestParam Optional<Long> postId,@RequestParam Optional<Long> userId){
         return ResponseEntity.ok().body(commentService.getAllCommentsWithParam(userId,postId));
     }
 

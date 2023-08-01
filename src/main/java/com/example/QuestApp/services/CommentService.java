@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -27,15 +28,21 @@ public class CommentService {
     @Autowired
     PostService postService;
 
-    public List<Comment> getAllCommentsWithParam(Optional<Long> userId, Optional<Long> postId) {
+    public List<CommentDTO> getAllCommentsWithParam(Optional<Long> userId, Optional<Long> postId) {
+        List<Comment> list;
+
         if(userId.isPresent()&&postId.isPresent()){
-            return commentReposi.findByUserIdAndPostId(userId.get(),postId.get());
+            list = commentReposi.findByUserIdAndPostId(userId.get(),postId.get());
+            return list.stream().map(f -> commentDTOMapper.entityTo(f)).collect(Collectors.toList());
         }else if (userId.isPresent()){
-            return commentReposi.findByUserId(userId.get());
+            list = commentReposi.findByUserId(userId.get());
+            return list.stream().map(f -> commentDTOMapper.entityTo(f)).collect(Collectors.toList());
         } else if (postId.isPresent()) {
-            return commentReposi.findByPostId(postId.get());
+            list = commentReposi.findByPostId(postId.get());
+            return list.stream().map(f -> commentDTOMapper.entityTo(f)).collect(Collectors.toList());
         }else
-        return commentReposi.findAll();
+            list = commentReposi.findAll();
+        return list.stream().map(f -> commentDTOMapper.entityTo(f)).collect(Collectors.toList());
     }
 
     public Comment createComment(CommentDTO commentDTO) {

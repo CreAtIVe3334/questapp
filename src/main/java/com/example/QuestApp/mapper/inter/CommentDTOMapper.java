@@ -10,5 +10,5 @@ import org.mapstruct.Mapper;
 public interface CommentDTOMapper {
     public Comment dtoTo(CommentDTO commentDTO, User user, Post post);
 
-
+    public CommentDTO entityTo(Comment comment);
 }

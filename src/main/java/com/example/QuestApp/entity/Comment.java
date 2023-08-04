@@ -14,7 +14,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Builder
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
 

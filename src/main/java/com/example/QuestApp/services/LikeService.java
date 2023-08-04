@@ -37,7 +37,8 @@ public class LikeService {
     public Like saveLike(LikeDTO likeDTO){
         User user = userService.findUser(likeDTO.getUserId());
         Post post = postService.getPost(likeDTO.getPostId());
-        Like like = Like.builder().post(post)
+        Like like = Like.builder()
+                .post(post)
                 .user(user)
                 .build();
        return likeRepository.save(like);

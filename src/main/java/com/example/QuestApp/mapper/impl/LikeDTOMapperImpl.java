@@ -11,9 +11,9 @@ public class LikeDTOMapperImpl implements LikeDTOMapper {
 
     @Override
     public LikeDTO entityTo(Like like) {
-        return LikeDTO.builder().id(like.getId())
-                .postId(like.getPost().getId())
-                .userId(like.getUser().getId())
+        return LikeDTO.builder()
+                .postId(like.getPost().getId().longValue())
+                .userId(like.getUser().getId().longValue())
                 .build();
     }
 

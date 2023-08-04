@@ -27,7 +27,7 @@ public class LikeService {
 
 
     @Autowired
-    PostReposi postReposi;
+    PostService postService;
 
 
     @Autowired
@@ -36,11 +36,11 @@ public class LikeService {
 
     public Like saveLike(LikeDTO likeDTO){
         User user = userService.findUser(likeDTO.getUserId());
-        Post post = postReposi.findById(likeDTO.getPostId()).orElse(null);
-        return Like.builder()
-                .post(post)
+        Post post = postService.getPost(likeDTO.getPostId());
+        Like like = Like.builder().post(post)
                 .user(user)
                 .build();
+       return likeRepository.save(like);
     }
 
 //    public String deleteLike(Long userId,Long postId){

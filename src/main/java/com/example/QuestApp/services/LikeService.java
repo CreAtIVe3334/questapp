@@ -44,17 +44,12 @@ public class LikeService {
        return likeRepository.save(like);
     }
 
-//    public String deleteLike(Long userId,Long postId){
-//        Like like = likeRepository.findByUserIdAndPostId(userId,postId);
-//        likeRepository.delete(like);
-//        return "Succesfully deleted";
-//    }
 
 
     public List<LikeDTO> getAllLikesWithParams(Optional<Long> userId, Optional<Long> postId){
         List<Like> likes;
         if(userId.isPresent()&& postId.isPresent()){
-            likes = likeRepository.findByUserIdAndPostId(userId.get(), postId.get());
+            likes = likeRepository.findAllByUserIdAndPostId(userId.get(), postId.get());
             return likes.stream().map(p->likeDTOMapper.entityTo(p)).collect(Collectors.toList());
         }else if (userId.isPresent()){
             likes = likeRepository.findByUserId(userId.get());
@@ -67,4 +62,15 @@ public class LikeService {
         return likes.stream().map(p->likeDTOMapper.entityTo(p)).collect(Collectors.toList());
     }
 
+    public LikeDTO deleteLike(Long userId, Long postId) {
+        Like like =  likeRepository.findByUserIdAndPostId(userId,postId);
+        if(like == null){
+            return LikeDTO.builder().build();
+        }
+        LikeDTO likeDTO= LikeDTO.builder().userId(like.getUser().getId())
+                        .postId(like.getPost().getId())
+                                .build();
+        likeRepository.delete(like);
+        return likeDTO;
+    }
 }

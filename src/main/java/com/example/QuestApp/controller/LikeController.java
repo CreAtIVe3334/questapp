@@ -20,9 +20,9 @@ public class LikeController {
         return ResponseEntity.ok().body(likeService.saveLike(likeDTO));
     }
 
-//    @DeleteMapping
-//    ResponseEntity<String> deleteLike(Long userId,Long postId){
-//        return ResponseEntity.ok().body(likeService.deleteLike(userId,postId));
-//    }
+    @DeleteMapping(("/{userId}/{postId}"))
+    ResponseEntity<LikeDTO> deleteLike(@PathVariable Long userId,@PathVariable Long postId){
+        return ResponseEntity.ok().body(likeService.deleteLike(userId,postId));
+    }
 
 }

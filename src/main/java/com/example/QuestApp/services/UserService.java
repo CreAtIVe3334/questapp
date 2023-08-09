@@ -1,14 +1,19 @@
 package com.example.QuestApp.services;
 
 import com.example.QuestApp.entity.User;
+import com.example.QuestApp.enums.Role;
 import com.example.QuestApp.repository.UserReposi;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService {
+
+    @Autowired
+    BCryptPasswordEncoder encoder;
 
     @Autowired
     UserReposi userReposi;
@@ -18,11 +23,17 @@ public class UserService {
     }
 
     public User saveOnUser(User user){
+        user.setPassword(encoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
         return userReposi.save(user);
     }
 
     public User findUser(Long id){
         return userReposi.findById(id).orElse(null);
+    }
+
+    public User findUserName(String user){
+        return userReposi.findByUsername(user);
     }
 
     public String deleteUser(Long userId){

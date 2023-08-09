@@ -9,4 +9,5 @@ import java.util.List;
 public interface UserReposi extends JpaRepository<User,Long> {
     public List<User> findAll();
 
+    User findByUsername(String user);
 }

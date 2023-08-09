@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-group button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Sign Up</h2>
+    <form id="signup-form">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group button-container">
+            <button type="submit">Sign Up</button>
+            <button type="button" onclick="redirectLogin()">Go to Login</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById("signup-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const signData = {};
+
+        for (let [key, value] of formData.entries()) {
+            signData[key] = value;
+        }
+
+        // Make a POST request to the backend endpoint
+        fetch("http://localhost:8080/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(signData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Request was successful
+                    // Redirect to login page
+                    window.location.href = "http://localhost:8080/login";
+                } else {
+                    // Request failed
+                    throw new Error("Error: " + response.status);
+                }
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the request
+                console.error("Error:", error);
+            });
+    });
+
+    function redirectLogin() {
+        // Redirect to login page
+        window.location.href = "http://localhost:8080/login";
+    }
+</script>
+</body>
+</html>

@@ -9,11 +9,11 @@ import java.util.List;
 @Repository
 public interface LikeRepository extends JpaRepository<Like,Long> {
 
-    List<Like> findByUserIdAndPostId(Long userId, Long postId);
+    List<Like> findAllByUserIdAndPostId(Long userId, Long postId);
 
-//    Like findByUserIdAndPostId(Long userId, Long postId);
+    Like findByUserIdAndPostId(Long userId, Long postId);
 
-    List<Like> findByPostId(Long postrId);
+    List<Like> findByPostId(Long postId);
 
     List<Like> findByUserId(Long userId);
 }
